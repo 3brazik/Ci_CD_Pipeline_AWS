@@ -1,0 +1,11 @@
+[application]
+10.0.4.156 #private instace ip
+
+[application:vars]
+ansible_user=ubuntu
+# ansible_ssh_user=ubuntu
+ansible_port = 22
+# ansible_ssh_port = 22
+private_key_file=/home/m3brazik/Projects/Terraform_PipeLine/Ansible/private-key.pem
+
+ansible_ssh_common_args= '-o ProxyCommand="ssh -i /home/m3brazik/Projects/Terraform_PipeLine/Ansible/private-key.pem -W %h:%p -q ubuntu@44.209.94.50"'

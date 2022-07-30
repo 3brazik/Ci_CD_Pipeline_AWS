@@ -1,0 +1,37 @@
+#infrastructure pipeline
+pipeline {
+    agent any
+
+    stages {
+        stage('get code') {
+            steps {
+                // Get some terraform code from a GitHub repository
+                git 'https://github.com/3brazik/Terraform_task.git'
+            }
+        }
+
+        stage ('init') {
+						
+            steps {
+				withAWS(credentials:'aws', region:'us-east-1'){
+                sh 'terraform init'}
+            }
+        }
+
+        stage('plan') {
+            steps {
+                withAWS(credentials:'aws', region:'us-east-1'){
+                sh 'terraform plan -var-file dev.tfvars  '}
+            }
+        }
+
+        stage('apply') {
+            steps {
+                withAWS(credentials:'aws', region:'us-east-1'){
+                sh 'terraform apply -var-file dev.tfvars -auto-approve '}
+            }
+        }
+				
+    }
+}
+    
